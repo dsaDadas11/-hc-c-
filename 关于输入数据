@@ -1,0 +1,40 @@
+输入描述:
+一行，若干个整数，空格分开。数据个数至少一个，不超过100100
+
+这个描述没有确定输入整数个数，所以我们选用  while ( scanf("%d", &a)!=EOF )
+
+
+***但是值得注意的是输入数据后无法得出答案，需要自己输完数字后先回车然后ctrl+z,再回车出答案
+
+
+例：
+#include<bits/stdc++.h>
+#define endl '\n'
+#define ll long long
+//#define int ll
+using namespace std;
+const int N=1e6+7;
+signed main()
+{
+	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	int n=0,min=INT_MAX,max=INT_MIN;
+	int a;
+	double sum=0,b;
+	while ( scanf("%d", &a)!=EOF )
+	{
+		
+		if(a<min)
+		{
+			min=a;
+		}
+		if(a>max)
+		{
+			max=a;
+		}
+		sum+=a;
+		n++;
+	}
+	b=sum/n;
+	printf("%d %d %.3lf",min,max,b);
+	return 0;
+}
