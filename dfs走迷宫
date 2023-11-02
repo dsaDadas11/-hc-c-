@@ -1,0 +1,51 @@
+#include<bits/stdc++.h>
+#define endl '\n'
+#define ll long long
+#define int ll
+using namespace std;
+const int N=1e6+7;
+const int M=2e3+7;
+int n,m,x,y,p,q,ans;
+int mp[M][M];
+bool vis[M][M];
+int nx[5]={1,0,-1,0};
+int ny[5]={0,1,0,-1};
+void dfs(int x,int y,int step)
+{
+	if(x==p&&y==q)
+	{
+		if(ans>step) ans=step;
+		return;
+	}
+	for(int i=0;i<=3;i++)
+	{
+		int xx=x+nx[i];
+		int yy=y+ny[i];
+		if(xx>=1&&xx<=n&&yy>=1&&yy<=m&&mp[xx][yy]!=1&&!vis[xx][yy])
+		{
+			vis[xx][yy]=1;
+			dfs(xx,yy,step+1);
+			vis[xx][yy]=0;
+		}
+	}
+}
+signed main()
+{
+	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	while(cin>>n>>m)
+	{
+		for(int i=1;i<=n;i++)
+		{
+			for(int j=1;j<=m;j++)
+			{
+				cin>>mp[i][j];
+			}
+		}
+		cin>>x>>y>>p>>q;
+		memset(vis,0,sizeof(vis));
+		ans=1e9;
+		dfs(x,y,0);
+		cout<<ans<<endl;
+	}
+	return 0;
+}
