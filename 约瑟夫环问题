@@ -1,0 +1,86 @@
+这道题是一道经典的约瑟夫环问题，可以用数学方法或者模拟方法解决。
+
+方法一：数学方法
+
+设最终留下的编号为 f(M)，则有：
+
+                   0            if M=1
+     f(M)=
+             (f(M-1)+n)mod M    if  M>1
+
+其中，n 为每次报数的人数。根据上式可以递归求出 f(M)，也可以用循环方式求出 f(M)，具体实现如下：
+
+//m个城市从城市1开始每隔n个城市轮流断电，求最小的N使最后断电的为第K号城市
+
+int solve(int m, int n)
+{
+	int s = 0;
+	for (int i = 2; i <= m; i++)
+	{
+		s = (s + n) % i;
+	}
+	return s + 1;
+}
+
+方法二：模拟方法
+
+按照题意模拟报数的过程，直到最后只剩下一个人为止。具体实现如下：
+
+int solve(int m, int n)
+{
+	vector<int> v(m);
+	for (int i = 0; i < m; i++)
+	{
+		v[i] = i + 1;
+	}
+	int i = 0;
+	while (v.size() > 1)
+	{
+		i = (i + n - 1) % v.size();
+		v.erase(v.begin() + i);
+	}
+	return v[0];
+}
+
+
+
+样例代码：
+#include<iostream>
+#include<vector>
+#define endl '\n'
+#define ll long long
+#define int ll
+using namespace std;
+const int N=1e6+7;
+int solve(int m,int n)
+{
+	int s=0;
+	for(int i=2;i<=m;i++)
+	{
+		s=(s+n)%i;
+	}
+	return s+1;
+}
+signed main()
+{
+	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		bool flag=1;
+		int n,m,k;
+		cin>>m>>k;
+		for(n=1;n<=m;n++)
+		{
+			if(solve(m,n)==k)
+			{
+				cout<<n<<endl;
+				flag=0;
+				break;
+			}
+		}
+		if(flag) cout<<"No Solution!"<<endl;
+	}
+	return 0;
+}
