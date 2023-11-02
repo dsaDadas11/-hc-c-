@@ -1,0 +1,37 @@
+二分情况分为两大类（需要有序，从小到大和从大到小都行）
+  一.sum[mid]>=x      //目前从大到小排序较稳妥
+   小情况1.找尽可能大的
+        int l=1,r=n;
+	while(l<r)
+	{
+		int mid=(l+r+1)/2;
+		if(sum[mid]>=x) l=mid;
+		else r=mid-1;
+	}
+	cout<<l<<endl;
+
+    小情况2.找尽可能小的
+        int l=1,r=n;
+	while(l<r)
+	{
+		int mid=(l+r)/2;
+		if(sum[mid]>=x) r=mid;
+		else l=mid+1;
+	}
+	cout<<l<<endl;
+
+      //注：1.l永远是输出的答案，不要输出r；
+           2.只需要确定（l+r+1)还是（l+r)   后面的if-else判断都是固定的；
+
+  二.sum[mid]<=x      //目前从小到大排序较稳妥
+        int l=1,r=n;
+	while(l<=r)
+	{
+		int mid=(l+r)/2;
+		if(sum[mid]<=x) l=mid+1;
+		else r=mid-1;
+	}
+	cout<<l<<endl;
+
+........................................................
+具体以题目情况为定
