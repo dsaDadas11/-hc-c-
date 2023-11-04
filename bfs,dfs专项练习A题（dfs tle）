@@ -1,0 +1,103 @@
+#include<bits/stdc++.h>
+#define endl '\n'
+#define ll long long
+#define int ll
+using namespace std;
+const int N=1e6+7;
+const int M=2e3+7;
+int n,m,k,c1,c2,g1,g2,ans1,ans2;
+char mp[M][M];
+bool vis1[M][M],vis2[M][M];
+int nx[]={0,0,1,-1};
+int ny[]={1,-1,0,0};
+struct tp
+{
+	int x1,x2,y1,y2;
+}a[N];
+void dfs1(int x,int y,int step)
+{
+	if(x==g1&&y==g2)
+	{
+		if(ans1>step) ans1=step;
+		return;
+	}
+	for(int i=0;i<=3;i++)
+	{
+		int xx=x+nx[i];
+		int yy=y+ny[i];
+		for(int j=1;j<=k;j++)
+		{
+			if(xx==a[j].x1&&yy==a[j].y1&&mp[a[j].x2][a[j].y2]!='~'&&!vis1[xx][yy])
+			{
+				xx=a[j].x2,yy=a[j].y2;
+				break;
+			}
+		}
+		if(xx>=1&&xx<=n&&yy>=1&&y<=m&&mp[xx][yy]!='~'&&!vis1[xx][yy])
+		{
+			vis1[xx][yy]=1;
+			dfs1(xx,yy,step+1);
+			vis1[xx][yy]=0;
+		}
+	}
+}
+void dfs2(int x,int y,int step)
+{
+	if(x==c1&&y==c2)
+	{
+		if(ans2>step) ans2=step;
+		return;
+	}
+	for(int i=0;i<=3;i++)
+	{
+		int xx=x+nx[i];
+		int yy=y+ny[i];
+		for(int j=1;j<=k;j++)
+		{
+			if(xx==a[j].x1&&yy==a[j].y1&&mp[a[j].x2][a[j].y2]!='~'&&!vis2[xx][yy])
+			{
+				xx=a[j].x2,yy=a[j].y2;
+				break;
+			}
+		}
+		if(xx>=1&&xx<=n&&yy>=1&&y<=m&&mp[xx][yy]!='~'&&!vis2[xx][yy])
+		{
+			vis2[xx][yy]=1;
+			dfs2(xx,yy,step+1);
+			vis2[xx][yy]=0;
+		}
+	}
+}
+signed main()
+{
+	ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		ans1=INT_MAX,ans2=INT_MAX;
+		memset(vis1,0,sizeof vis1);
+		memset(vis2,0,sizeof vis2);
+		cin>>n>>m;
+		for(int i=1;i<=n;i++)
+		{
+			for(int j=1;j<=m;j++)
+			{
+				cin>>mp[i][j];
+				if(mp[i][j]=='C') c1=i,c2=j;
+				if(mp[i][j]=='G') g1=i,g2=j;
+			}
+		}
+		cin>>k;
+		for(int i=1;i<=k;i++)
+			cin>>a[i].x1>>a[i].y1>>a[i].x2>>a[i].y2;
+		dfs1(c1,c2,0);
+		dfs2(g1,g2,0);
+		if(ans1==INT_MAX) cout<<"-1 ";
+		else cout<<ans1<<' ';
+		if(ans2==INT_MAX) cout<<"-1";
+		else cout<<ans2;
+		cout<<endl;
+	}
+	return 0;
+}
